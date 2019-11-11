@@ -2,6 +2,7 @@ const db = require("../database/db-config");
 
 module.exports = {
     get,
+    getByUsername,
     add
 }
 
@@ -14,6 +15,12 @@ function get(id) {
     } else {
         return db('users').select('id', 'username');
     }
+}
+
+function getByUsername(username) {
+    return db('users')
+        .where({ username })
+        .first();
 }
 
 function add(user) {

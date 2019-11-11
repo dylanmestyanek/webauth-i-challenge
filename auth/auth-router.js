@@ -13,10 +13,24 @@ router.post("/register", validateUser, (req, res) => {
 
     Users.add(user)
     .then(user => res.status(201).json(user))
+    .catch(err => res.status(500).json({ error: "Failed to add new user." }))   
+})
+
+// POST - Login user
+router.post("/login", validateUser, (req, res) => {
+    const { username, password } = req.body;
+
+    Users.getByUsername(username)
+    .then(user => {
+        if (user && bcrypt.compareSync(password, user.password)) {
+            res.status(200).json({ message: "Wuddup!!!!!"})
+        } else {
+            res.status(401).json({ message: "Invalid credentials." })
+        }
+    })
     .catch(err => {
-        console.log(err);
-        res.status(500).json({ error: "Failed to add new user." })
-    })   
+        console.log(err)
+        res.status(500).json({ error: "Unable to log in, please try again later." })})
 })
 
 module.exports = router;
