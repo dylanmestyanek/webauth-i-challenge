@@ -3,6 +3,11 @@ import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
 const Navigation = () => {
+
+    const logout = () => {
+        localStorage.removeItem('token');
+    }
+
     return (
         <NavBar>
             <h2>this is THEE application</h2>
@@ -10,6 +15,7 @@ const Navigation = () => {
                 <NavLink to="/login" activeStyle={{ background: "#537ec5" }}>Log In</NavLink>
                 <NavLink to="/register" activeStyle={{ background: "#537ec5" }}>Register</NavLink>
                 <NavLink to="/dashboard" activeStyle={{ background: "#537ec5" }}>Dashboard</NavLink>
+                <NavLink to="/login" onClick={logout}>Log Out</NavLink>
             </div>
         </NavBar>
     )
