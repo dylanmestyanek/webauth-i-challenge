@@ -23,7 +23,7 @@ router.post("/login", validateUser, (req, res) => {
     Users.getByUsername(username)
     .then(user => {
         if (user && bcrypt.compareSync(password, user.password)) {
-            req.session.user = user;
+            req.session.username = user.username;
             res.status(200).json({ message: "Wuddup!!!!!"})
         } else {
             res.status(401).json({ message: "Invalid credentials." })
@@ -36,7 +36,7 @@ router.post("/login", validateUser, (req, res) => {
 
 // GET - Logout user
 router.get("/logout", (req, res) => {
-    if (req.session.usergit) {
+    if (req.session.username) {
         req.session.destroy(err => {
             if (err) {
                 res.send({ message: 'There was an error while logging out' })
