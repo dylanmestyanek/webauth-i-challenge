@@ -21,7 +21,7 @@ const Login = ({ history }) => {
         e.preventDefault();
         axios.post("http://localhost:4000/api/auth/login", credentials)
             .then(res => history.push("/dashboard"))
-            .catch(err => console.log("Failed to register the user", err));
+            .catch(err => console.log("Failed to login", err));
         
         setCredentials({
             username: "",
