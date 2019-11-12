@@ -23,6 +23,7 @@ router.post("/login", validateUser, (req, res) => {
     Users.getByUsername(username)
     .then(user => {
         if (user && bcrypt.compareSync(password, user.password)) {
+            req.session.user = user;
             res.status(200).json({ message: "Wuddup!!!!!"})
         } else {
             res.status(401).json({ message: "Invalid credentials." })
@@ -32,5 +33,20 @@ router.post("/login", validateUser, (req, res) => {
         console.log(err)
         res.status(500).json({ error: "Unable to log in, please try again later." })})
 })
+
+// GET - Logout user
+router.get("/logout", (req, res) => {
+    if (req.session.usergit) {
+        req.session.destroy(err => {
+            if (err) {
+                res.send({ message: 'There was an error while logging out' })
+            } else {
+                res.json({ message: "Logout successful!" })
+            }
+        });
+    } else {
+        res.json({ message: "You are already logged out!" })
+    }
+});
 
 module.exports = router;
